@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>万博用アプリ</title>
+        <!-- <link rel="stylesheet" href="css/style.css" /> -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+        <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+    </head>
+    <body>
+        <header class="header" id="header">
+            <!-- <h1 class="app-title" id="appTitle"></h1> -->
+            <div id="company-logo">
+                <img src="{{ url_for('static', filename='image/logo1.png') }}" alt="neibo_logo" />
+            </div>
+        </header>
+
+        <!-- コントロールパネル -->
+        <div class="control-panel-overlay" id="controlPanelOverlay">
+            <div class="control-panel">
+                <h3>会話アプリの停止・再開</h3>
+                <div class="control-buttons">
+                    <button class="control-button stop" id="toggleButton" onclick="toggleApp()">
+                        <i class="fas fa-stop"></i>
+                        停止
+                    </button>
+                    <button class="control-button refresh" onclick="refreshApp()">
+                        <i class="fas fa-sync-alt"></i>
+                        再起動
+                    </button>
+                    <button class="control-button homepose" onclick="homePose()">
+                        <i class="fa-solid fa-location-dot"></i>
+                        会話位置へ戻す
+                    </button>
+                    <button class="control-button initpose" onclick="initPose()">
+                        <i class="fa-solid fa-street-view"></i>
+                        現在地設定
+                    </button>
+                    <button class="control-button close" onclick="closeControlPanel()">
+                        <i class="fas fa-times"></i>
+                        閉じる
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- 起動時確認ポップアップ -->
+        <div id="startupPopup" class="startup-popup">
+            <div class="startup-content">
+                <h2>アプリを開始しますか？</h2>
+                <button id="startupBtn" class="startup-button">開始</button>
+            </div>
+        </div>
+
+        <main id="mainContent">
+            <div class="background-circles">
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+            </div>
+
+            <div class="content">
+                <div class="main-title">
+                    <h2>大阪・関西万博に出展しました</h2>
+                    <div class="decorative-line"></div>
+                </div>
+                <div class="expo-section">
+                    <div class="expo-video">
+                        <video autoplay loop muted playsinline webkit-playsinline disablepictureinpicture width="100%" height="auto">
+                            <!-- <video controls playsinline webkit-playsinline width="100%" height="auto"> -->
+                            <source src="{{ url_for('static', filename='image/expo2025_1.mp4') }}" type="video/mp4" />
+                            <!-- <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" /> -->
+                            動画を再生できません。
+                        </video>
+                    </div>
+                </div>
+                <div class="server-text-area">
+                    <div class="server-text" id="serverText"></div>
+                </div>
+            </div>
+        </main>
+        <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+    </body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>EXEDY受付アプリ</title>
+        <meta http-equiv="Content-Language" content="ja" />
+        <meta name="google" content="notranslate" />
+        <link rel="stylesheet" href="css/header.css" />
+        <link rel="stylesheet" href="css/guidance.css" />
+        <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/roslib/build/roslib.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap" rel="stylesheet" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://kit.fontawesome.com/5296d6dcfe.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div id="loadingOverlay" class="loading-overlay">
+            <!-- SVGアニメーション -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="#2589d0">
+                <circle cx="12" cy="2" r="2" opacity=".1">
+                    <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin="0"/>
+                </circle>
+                <circle transform="rotate(45 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                    <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".125s"/>
+                </circle>
+                <circle transform="rotate(90 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                    <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".25s"/>
+                </circle>
+                <circle transform="rotate(135 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                    <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".375s"/>
+                </circle>
+                <circle transform="rotate(180 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                    <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".5s"/>
+                </circle>
+                <circle transform="rotate(225 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                    <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".625s"/>
+                </circle>
+                <circle transform="rotate(270 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                    <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".75s"/>
+                </circle>
+                <circle transform="rotate(315 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                    <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".875s"/>
+                </circle>
+            </svg>
+        </div>
+        <img src="image/navigation.png" alt="Front Image" class="front-image" />
+        <header>
+            <div id="company-logo">
+                <img src="image/logo1.png" alt="neibo_logo" />
+            </div>
+            <div id="current-time"></div>
+            <!-- <div id="stop-icon"> -->
+            <!-- <i class="fa-regular fa-circle-stop"></i> -->
+            <!-- <i class="fa-solid fa-circle-stop"></i> -->
+            <!-- </div> -->
+            <!-- <div id="stop-icon" style="position: absolute; right: 80px">
+                <i class="fa-regular fa-circle-stop"></i>
+            </div> -->
+            <div id="settings-icon">
+                <i class="fa-solid fa-gear"></i>
+            </div>
+        </header>
+        <!-- パスワード入力モーダル -->
+        <div id="password-modal">
+            <div class="modal-content">
+                <h3 id="modal-title">パスワードを入力してください</h3>
+                <div id="password-section">
+                    <input type="password" id="password-input" placeholder="パスワード" />
+                    <button id="submit-password">確定</button>
+                    <button id="cancel-password">キャンセル</button>
+                </div>
+                <!-- <div id="settings-section" style="display: none">
+                    <ul>
+                        <li><button>プロンプト編集</button></li>
+                        <li><button>地点登録</button></li>
+                    </ul>
+                    <button id="close-settings">閉じる</button>
+                </div> -->
+                <div id="settings-section" style="display: none">
+                    <ul>
+                        <li>
+                            <button id="prompt-edit-button">
+                                <i class="fa-solid fa-user"></i>
+                                プロンプト編集
+                            </button>
+                        </li>
+                        <li>
+                            <button id="point-add-button">
+                                <i class="fa-solid fa-location-dot"></i>
+                                地点追加
+                            </button>
+                        </li>
+                        <li>
+                            <button id="initialize-button"><i class="fa-solid fa-map-pin"></i> 現在地設定</button>
+                        </li>
+                        <li>
+                            <button><i class="fa-solid fa-lock"></i> パスワード変更</button>
+                        </li>
+                    </ul>
+                    <button id="close-settings">閉じる</button>
+                </div>
+            </div>
+        </div>
+        <!-- 編集用ポップアップ -->
+        <div id="edit-popup">
+            <div class="popup-content">
+                <h3>プロンプトを編集</h3>
+                <textarea id="edit-textarea" rows="10"></textarea>
+                <div class="popup-buttons">
+                    <button id="save-button">保存</button>
+                    <button id="cancel-button">キャンセル</button>
+                </div>
+            </div>
+        </div>
+        <main>
+            <div class="button-section">
+                <button id="action-button">案内開始</button>
+            </div>
+            <div id="floor-map">
+                <img src="image/floormap_1.png" alt="floormap_a-1" />
+            </div>
+        </main>
+        <script>
+            function updateTime() {
+                const currentTimeElement = document.getElementById("current-time");
+                const now = new Date();
+                const formattedTime =
+                    now.toLocaleDateString("ja-JP", {
+                        month: "long",
+                        day: "numeric",
+                    }) +
+                    " " +
+                    now.toLocaleTimeString("ja-JP", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                    });
+                currentTimeElement.textContent = formattedTime;
+            }
+
+            setInterval(updateTime, 10000); // 10秒ごとに時間を更新
+            updateTime(); // 初回実行で直ちに時間を表示
+        </script>
+        <script src="js/guidance.js" defer></script>
+        <script src="module/api.js"></script>
+        <script src="module/function.js"></script>
+    </body>
+</html>
