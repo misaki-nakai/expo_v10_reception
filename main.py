@@ -574,7 +574,7 @@ async def stream_audio_and_receive_response():
 def send_message_to_websocket(message):
     try:
         send_response = requests.post(
-            "http://localhost:5000/send_message", json={"message": message})
+            "https://expo-v10-reception.onrender.com/send_message", json={"message": message})
     except Exception as e:
         print(f"websocket 送信エラー: {e}")
 

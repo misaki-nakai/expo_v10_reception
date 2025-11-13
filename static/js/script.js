@@ -1,4 +1,5 @@
-const socket = io("http://localhost:5000"); // サーバーURLに合わせる
+// const socket = io("http://localhost:5000"); // サーバーURLに合わせる
+const socket = io(); // URL 指定しない
 
 let isTyping = false;
 let isAppStopped = false;
