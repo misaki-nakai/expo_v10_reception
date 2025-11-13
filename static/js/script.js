@@ -52,7 +52,7 @@ function typeWriterEffect(text, speed = 60, elementId = "serverText") {
 
 async function appStart() {
     try {
-        const response = await fetch("http://localhost:5000/appstart", {
+        const response = await fetch("https://expo-v10-reception.onrender.com/appstart", {
             method: "POST",
         });
         if (response.ok) {
@@ -71,7 +71,7 @@ async function appStart() {
 
 async function conversationStart() {
     try {
-        const response = await fetch("http://localhost:5000/start", {
+        const response = await fetch("https://expo-v10-reception.onrender.com/start", {
             method: "POST",
         });
         if (response.ok) {
@@ -90,7 +90,7 @@ async function conversationStart() {
 
 async function conversationStop() {
     try {
-        const response = await fetch("http://localhost:5000/stop", {
+        const response = await fetch("https://expo-v10-reception.onrender.com/stop", {
             method: "POST",
         });
 
@@ -144,7 +144,7 @@ function toggleApp() {
 async function refreshApp() {
     // window.location.reload();
     try {
-        const response = await fetch("http://localhost:5000/restart", {
+        const response = await fetch("https://expo-v10-reception.onrender.com/restart", {
             method: "POST",
         });
         if (response.ok) {
@@ -163,7 +163,7 @@ async function refreshApp() {
 
 async function initPose() {
     try {
-        const response = await fetch("http://localhost:5000/initpose", {
+        const response = await fetch("https://expo-v10-reception.onrender.com/initpose", {
             method: "POST",
         });
         if (response.ok) {
@@ -182,7 +182,7 @@ async function initPose() {
 
 async function homePose() {
     try {
-        const response = await fetch("http://localhost:5000/homepose", {
+        const response = await fetch("https://expo-v10-reception.onrender.com/homepose", {
             method: "POST",
         });
         if (response.ok) {
